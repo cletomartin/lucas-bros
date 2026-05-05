@@ -87,6 +87,11 @@ class Game {
   // ---------- ARRANQUE DE NIVEL ----------
   loadLevel(idx) {
     const data = LEVELS[idx];
+    // Antes de recrear al jugador, guardamos la barriga del nivel anterior
+    // para que se conserve entre niveles. Si no había jugador (nueva
+    // partida) o estaba muerto al pasar de nivel, empezamos en 0.
+    const carryBarriga = (this.players[0] && !this.players[0].dead)
+      ? this.players[0].barriga : 0;
     this.level = new Level(data);
     const spawns = this.level.extractSpawns();
 
@@ -102,10 +107,12 @@ class Game {
     if (spawns.lucas || spawns.cleto) {
       const sp = spawns.lucas || spawns.cleto;
       const ch = this.character();
-      this.players.push(new Player({
+      const p = new Player({
         x: sp.x, y: sp.y,
         sprite: ch.sprite(), name: ch.name, index: 0,
-      }));
+      });
+      p.barriga = carryBarriga;
+      this.players.push(p);
     }
 
     this.enemies = enemySpawns.map(s => {
@@ -187,6 +194,10 @@ class Game {
   startNewGame() {
     this.score = 0;
     this.scoreMul = DIFFICULTIES[this.selectedDiff].scoreMul;
+    // Limpiamos los jugadores de la partida anterior para que la
+    // barriga no se herede de una run a otra (loadLevel calcula la
+    // barriga heredada a partir de this.players[0]).
+    this.players = [];
     this.loadLevel(0);
     this.state = STATES.PLAYING;
   }

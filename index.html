@@ -2,6 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#111">
   <title>Lucas Bros. — La aventura del cole</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -15,6 +19,19 @@
       <span>Eructo: E (con barriga llena)</span>
       <span>Pausa: P</span>
     </div>
+    <!-- Controles táctiles: sólo se ven en móvil (pointer:coarse). -->
+    <div id="touch-controls">
+      <div class="dpad">
+        <button class="tbtn" data-key="ArrowLeft" aria-label="Izquierda">◀</button>
+        <button class="tbtn" data-key="ArrowRight" aria-label="Derecha">▶</button>
+      </div>
+      <div class="actions">
+        <button class="tbtn small" data-key="KeyE" aria-label="Eructo">E</button>
+        <button class="tbtn" data-key="ArrowDown" aria-label="Boomerang">B</button>
+        <button class="tbtn big" data-key="ArrowUp" aria-label="Saltar">▲</button>
+      </div>
+    </div>
+    <button id="touch-start" data-key="Space" aria-label="Empezar">▶ START</button>
   </div>
 
   <script src="js/audio.js"></script>

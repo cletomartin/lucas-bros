@@ -34,6 +34,46 @@ const Input = {
     window.addEventListener('pointerdown', wakeAudio);
     window.addEventListener('click', wakeAudio);
     window.addEventListener('touchstart', wakeAudio, { passive: true });
+
+    this._initTouchButtons();
+  },
+
+  // Botones táctiles: cada botón tiene un atributo data-key con un código
+  // de tecla virtual (ArrowLeft, KeyE, Space, etc). Tocarlo simula un
+  // keydown; soltarlo (o cancelar el touch) simula un keyup. Soporta
+  // multi-touch porque cada botón es un elemento independiente.
+  _initTouchButtons() {
+    const buttons = document.querySelectorAll('[data-key]');
+    if (!buttons.length) return;
+    const press = (btn) => {
+      const code = btn.dataset.key;
+      if (!code) return;
+      if (!this.down[code]) this._justPressed[code] = true;
+      this.down[code] = true;
+      btn.classList.add('pressed');
+      if (typeof Audio8 !== 'undefined') Audio8.ensure();
+    };
+    const release = (btn) => {
+      const code = btn.dataset.key;
+      if (!code) return;
+      this.down[code] = false;
+      btn.classList.remove('pressed');
+    };
+    for (const btn of buttons) {
+      // Evitamos el "click fantasma" + scroll/zoom del navegador móvil.
+      btn.addEventListener('touchstart', (e) => { e.preventDefault(); press(btn); }, { passive: false });
+      btn.addEventListener('touchend',   (e) => { e.preventDefault(); release(btn); }, { passive: false });
+      btn.addEventListener('touchcancel',(e) => { e.preventDefault(); release(btn); }, { passive: false });
+      // Versión ratón (útil para probar en escritorio o en tablets con
+      // lápiz/teclado externo).
+      btn.addEventListener('mousedown',  (e) => { e.preventDefault(); press(btn); });
+      btn.addEventListener('mouseup',    (e) => { e.preventDefault(); release(btn); });
+      btn.addEventListener('mouseleave', () => { release(btn); });
+      // Algunos botones (Pausa, Start) son una pulsación instantánea: si
+      // el usuario suelta el dedo fuera del botón también lo damos por
+      // soltado en el siguiente frame.
+      btn.addEventListener('contextmenu', (e) => e.preventDefault());
+    }
   },
 
   beginFrame() {

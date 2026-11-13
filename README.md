@@ -7,8 +7,8 @@ La portada tiene un menú para elegir juego, y dentro de cada uno el botón
 
 | Carpeta    | Juego |
 |------------|-------|
-| `juego1/`  | **Lucas Bros. — La aventura del cole** (el primero) |
-| `juego2/`  | **Lucas Bros. 2 — Los profes contraatacan** |
+| `1/`  | **Lucas Bros. — La aventura del cole** (el primero) |
+| `2/`  | **Lucas Bros. 2 — Los profes contraatacan** |
 
 Para jugar sin internet: abre `index.html` en el navegador.
 
@@ -17,7 +17,7 @@ Para jugar sin internet: abre `index.html` en el navegador.
 # Lucas Bros. 2 — Los profes contraatacan
 
 Un juego de plataformas con estética de 16 bits, hecho con HTML5 + JavaScript.
-Sin librerías externas. Todo el código está en `juego2/`.
+Sin librerías externas. Todo el código está en `2/`.
 (Con internet carga la tipografía Fredoka; sin internet usa una de sistema).
 
 ## Cómo jugar
@@ -89,7 +89,7 @@ Irene, Berta, Andreína, Adrián, Martín. Písalos o dales con el boomerang.
 
 Entre medias, dos niveles **bonus**.
 
-## Estructura del código (en `juego2/`)
+## Estructura del código (en `2/`)
 
 ```
 index.html        Página principal

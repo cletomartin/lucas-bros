@@ -124,7 +124,13 @@ class Level {
     const left   = Math.floor(ent.x / TILE_SIZE);
     const right  = Math.floor((ent.x + ent.w - 1) / TILE_SIZE);
     const top    = Math.floor(ent.y / TILE_SIZE);
-    const bottom = Math.floor((ent.y + ent.h - 1) / TILE_SIZE);
+    // En vertical cuenta cualquier contacto, aunque sea de una fracción de
+    // píxel: si no, al caer despacio un personaje "flota" unos frames sobre
+    // el suelo y su postura parpadea entre andar y caer. En horizontal
+    // dejamos 1 px de margen para no chocar con el suelo que pisamos.
+    const bottom = axis === 'y'
+      ? Math.floor((ent.y + ent.h - 0.01) / TILE_SIZE)
+      : Math.floor((ent.y + ent.h - 1) / TILE_SIZE);
     let hit = false;
     for (let row = top; row <= bottom; row++) {
       for (let col = left; col <= right; col++) {

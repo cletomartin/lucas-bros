@@ -2,7 +2,7 @@
 //
 // Cada nivel es un grid de caracteres (15 filas, anchura libre).
 // Tile types (ver level.js para detalles):
-//   '.' = aire, '#' = suelo, '=' = plataforma, 'b' = ladrillo
+//   '.' = aire, '#' = suelo, '=' = plataforma, 'k' = ladrillo
 //   'P' = spawn del jugador (Lucas o Cleto, según se elija en el título)
 //   'D' = Diego (hermano pequeño)
 //   'A' = Papá, 'M' = Mamá (gruñones: te regañan)
@@ -40,7 +40,7 @@ function stage(W, build) {
   const S = {
     ground(c0, c1, top = 11) { for (let c = c0; c < c1; c++) for (let y = top; y < 15; y++) g[y][c] = '#'; },
     plat(c, len, row) { for (let i = 0; i < len; i++) g[row][c + i] = '='; },
-    wall(c, rowTop, rowBot, ch = 'b') { for (let y = rowTop; y <= rowBot; y++) g[y][c] = ch; },
+    wall(c, rowTop, rowBot, ch = 'k') { for (let y = rowTop; y <= rowBot; y++) g[y][c] = ch; },
     put(c, row, str) { for (let i = 0; i < str.length; i++) if (str[i] !== '.') g[row][c + i] = str[i]; },
   };
   build(S);

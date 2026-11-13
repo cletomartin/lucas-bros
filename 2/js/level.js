@@ -9,7 +9,7 @@
 // meta) se pintan cada frame.
 
 const TILE_SIZE = 16;
-const SOLID_TILES = new Set(['#', '=', 'b', '|', '?', '!', 't']);
+const SOLID_TILES = new Set(['#', '=', 'b', 'k', '|', '?', '!', 't']);
 
 // Temas visuales: estilo de suelo, de plataformas y colores.
 //   ground: 'grass' | 'carpet' | 'wood' | 'marble'
@@ -63,6 +63,10 @@ class Level {
     this.title = data.title;
     this.bossClass = data.bossClass;
     this.enemyTable = data.enemyTable || {};
+    // Las letras de enemigos ('a'..'e') nunca son sólidas: así un compañero
+    // 'b' no deja un ladrillo donde aparece (los ladrillos son 'k').
+    this.solidSet = new Set(SOLID_TILES);
+    for (const ch of Object.keys(this.enemyTable)) this.solidSet.delete(ch);
     this.heightTiles = this.tiles.length;
     this.widthTiles = Math.max(...this.tiles.map(r => r.length));
     for (const row of this.tiles) while (row.length < this.widthTiles) row.push('.');
@@ -111,7 +115,7 @@ class Level {
     if (col < 0 || col >= this.widthTiles) return true;  // paredes invisibles a los lados
     if (row < 0) return false;
     if (row >= this.heightTiles) return false;
-    return SOLID_TILES.has(this.tiles[row][col] || '.');
+    return this.solidSet.has(this.tiles[row][col] || '.');
   }
 
   solidAt(x, y) {
@@ -203,7 +207,7 @@ class Level {
   }
 
   // ---------------- PINTADO ----------------
-  _isSolidCh(ch) { return SOLID_TILES.has(ch); }
+  _isSolidCh(ch) { return this.solidSet.has(ch); }
   _ch(col, row) {
     if (row < 0 || row >= this.heightTiles || col < 0 || col >= this.widthTiles) return '.';
     return this.tiles[row][col] || '.';
@@ -220,7 +224,7 @@ class Level {
         const x = col * TILE_SIZE, y = row * TILE_SIZE;
         if (ch === '#' || ch === '|') this._paintGround(c, col, row, x, y);
         else if (ch === '=') this._paintPlatform(c, col, row, x, y);
-        else if (ch === 'b') this._paintBrick(c, col, row, x, y);
+        else if ((ch === 'k' || ch === 'b') && this._isSolidCh(ch)) this._paintBrick(c, col, row, x, y);
       }
     }
     this._outlineTiles(c);
@@ -229,7 +233,7 @@ class Level {
       for (let col = 0; col < this.widthTiles; col++) {
         const above = this._ch(col, row - 1);
         const here = this._ch(col, row);
-        if (!this._isSolidCh(here) && (above === '=' || above === 'b' || above === '?' || above === '!')) {
+        if (!this._isSolidCh(here) && (above === '=' || above === 'k' || (above === 'b' && this._isSolidCh('b')) || above === '?' || above === '!')) {
           const x = col * TILE_SIZE, y = row * TILE_SIZE;
           for (let i = 0; i < 6; i++) {
             c.fillStyle = `rgba(20,10,40,${0.2 * (1 - i / 6)})`;

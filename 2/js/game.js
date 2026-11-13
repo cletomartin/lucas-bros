@@ -357,7 +357,7 @@ class Game {
     // Todos andan hacia la derecha a la velocidad del fondo: los pasos
     // van acompasados con el suelo (misma zancada que en el juego).
     const walkIn = (sp, x, phase) => {
-      const animT = t * SCROLL * strideOf(sp) + phase;
+      const animT = t * walkAnimStep(SCROLL, sp) + phase;
       const fr = animFrame(sp, 'walk', animT);
       const bob = Math.floor(animT) % 2 === 1 ? -1 : 0;
       drawSprite(c, fr, x, 176 - gridContentHeight(fr) + bob, false);

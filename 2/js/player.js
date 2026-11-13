@@ -317,7 +317,7 @@ class Player {
     this.pedos = this.pedos.filter(e => !e.dead);
 
     // ---- animación ----
-    if (this.onGround) this.animT += Math.abs(this.vx) * strideOf(this.sprite);
+    if (this.onGround) this.animT += walkAnimStep(this.vx, this.sprite);
     else this.animT = 0;
     if (this.onGround && (this.skidding || (Math.abs(this.vx) > 2.0 && Math.random() < 0.12))) {
       this.events.push({ type: this.skidding ? 'skid' : 'run' });

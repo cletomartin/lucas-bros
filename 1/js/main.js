@@ -20,7 +20,8 @@
   let acc = 0;
 
   function loop(now) {
-    const dt = now - lastTime;
+    // (máx. 100 ms: si la pestaña estuvo en segundo plano no "acelera")
+    const dt = Math.min(100, now - lastTime);
     lastTime = now;
     acc += dt;
     // Hacemos hasta 4 updates por frame del navegador para no quedarnos cortos.

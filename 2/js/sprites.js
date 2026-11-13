@@ -600,6 +600,13 @@ function animFrame(grid, state, t) {
 //   - quietos: de pie, parpadeando de vez en cuando.
 // Cada personaje lleva un objeto `walker` con su estado de animación.
 // -------------------------------------------------------------
+// Tope de velocidad de la animación de andar: como mucho ~9 posturas por
+// segundo (unos 2 pasos completos por segundo). Por debajo del tope los
+// pasos van acompasados con lo que avanza el personaje; por encima ya no
+// se aceleran más, para que brazos y piernas no se vuelvan locos.
+const ANIM_MAX_STEP = 0.15;   // fotogramas de paso por actualización (60/s)
+function walkAnimStep(vx, sprite) { return Math.min(Math.abs(vx) * strideOf(sprite), ANIM_MAX_STEP); }
+
 function makeWalker(facing = 1) { return { animT: 0, facing, idleT: Math.random() * 180, onGround: true, moving: false }; }
 
 function strideOf(grid) {
@@ -612,7 +619,7 @@ function strideOf(grid) {
 function stepWalker(wk, sprite, { vx, onGround, lookAt = 0, lock = false }) {
   wk.idleT++;
   const moving = onGround && Math.abs(vx) > 0.08;
-  if (moving) wk.animT += Math.abs(vx) * strideOf(sprite);
+  if (moving) wk.animT += walkAnimStep(vx, sprite);
   else if (onGround) wk.animT = 0;
   if (!lock) {
     if (Math.abs(vx) > 0.08) wk.facing = vx > 0 ? 1 : -1;

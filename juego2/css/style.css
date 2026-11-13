@@ -141,3 +141,123 @@ html, body {
   .tbtn.big  { width: 64px; height: 64px; }
   .tbtn.small{ width: 42px; height: 42px; font-size: 14px; }
 }
+
+/* ===================================================================
+   MANDO TÁCTIL (móvil / tablet) — estilo consola: botones con relieve
+   que se hunden al pulsar. Estas reglas sustituyen a las de arriba.
+   =================================================================== */
+.tbtn {
+  --face: #4a3a7c;      /* color de la cara del botón */
+  --edge: #1e1438;      /* "canto" inferior que da el relieve */
+  --ink: #ffffff;
+  position: relative;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  width: 64px; height: 64px; padding: 0;
+  font-family: "Fredoka", "Trebuchet MS", sans-serif; font-weight: 700;
+  color: var(--ink);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--face) 80%, #fff) 0%, var(--face) 55%, color-mix(in srgb, var(--face) 85%, #000) 100%);
+  border: 2px solid rgba(0, 0, 0, 0.35);
+  border-radius: 18px;
+  box-shadow: 0 6px 0 var(--edge), 0 9px 14px rgba(0, 0, 0, 0.45), inset 0 2px 0 rgba(255, 255, 255, 0.35);
+  transition: transform 0.05s, box-shadow 0.05s;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none; -webkit-user-select: none; touch-action: none;
+}
+.tbtn svg {
+  width: 30px; height: 30px; pointer-events: none;
+  fill: none; stroke: currentColor; stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round;
+  filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.35));
+}
+.tbtn .lbl { font-size: 10px; letter-spacing: 0.5px; pointer-events: none; text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4); }
+.tbtn .ico { font-size: 24px; line-height: 1; pointer-events: none; }
+.tbtn:active, .tbtn.pressed {
+  transform: translateY(5px);
+  box-shadow: 0 1px 0 var(--edge), 0 3px 6px rgba(0, 0, 0, 0.4), inset 0 2px 6px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(180deg, var(--face) 0%, color-mix(in srgb, var(--face) 85%, #000) 100%);
+  color: var(--ink);
+}
+
+/* Cruceta: dos flechas unidas sobre una base */
+#touch-controls .dpad {
+  display: flex; gap: 6px; padding: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.45);
+}
+.tbtn.dir { width: 72px; height: 66px; --face: #3c3066; --edge: #160e2a; }
+.tbtn.dir svg { width: 34px; height: 34px; }
+
+/* Botones de acción (colores como los de una consola) */
+#touch-controls .actions { display: flex; gap: 12px; align-items: flex-end; }
+.tbtn.act  { width: 64px; height: 64px; border-radius: 20px; }
+.tbtn.jump { width: 84px; height: 78px; --face: #ff5c8a; --edge: #8a1f45; border-radius: 24px; }
+.tbtn.jump svg { width: 36px; height: 36px; }
+.tbtn.boom { --face: #ffb830; --edge: #8a5a00; --ink: #3a2000; }
+.tbtn.boom .lbl { text-shadow: none; }
+.tbtn.fart { width: 54px; height: 56px; --face: #5cc46a; --edge: #1f6a2c; margin-bottom: 4px; }
+.tbtn.fart .lbl { font-size: 9px; }
+
+/* START: píldora tipo consola */
+#touch-start {
+  display: none;
+  font-family: "Fredoka", "Trebuchet MS", sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 2px;
+  color: #e8e0ff;
+  background: linear-gradient(180deg, #3a2e60, #241a40);
+  border: 2px solid rgba(0, 0, 0, 0.4);
+  border-radius: 999px;
+  padding: 7px 18px 7px 14px;
+  box-shadow: 0 4px 0 #120a22, inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  -webkit-tap-highlight-color: transparent;
+}
+#touch-start .dot {
+  display: inline-block; width: 8px; height: 8px; margin-right: 8px; vertical-align: 1px;
+  border-radius: 50%; background: #ffd860; box-shadow: 0 0 6px #ffd860;
+}
+#touch-start:active, #touch-start.pressed { transform: translateY(3px); box-shadow: 0 1px 0 #120a22; }
+
+@media (hover: none), (pointer: coarse) {
+  #touch-controls { padding: 0 14px 6px; align-items: center; }
+  #touch-start { display: inline-block; }
+}
+@media (hover: none) and (orientation: landscape) {
+  .tbtn.dir  { width: 60px; height: 54px; }
+  .tbtn.act  { width: 54px; height: 54px; }
+  .tbtn.jump { width: 70px; height: 64px; }
+  .tbtn.fart { width: 46px; height: 48px; }
+}
+/* Pantallas muy estrechas */
+@media (max-width: 360px) {
+  .tbtn.dir  { width: 60px; }
+  #touch-controls .actions { gap: 8px; }
+  .tbtn.jump { width: 72px; }
+}
+
+/* Botones de acción en racimo, como en un mando:
+       [PEDO]
+   [LANZAR][SALTAR]                                              */
+#touch-controls .actions {
+  display: grid;
+  grid-template-areas: ". fart" "boom jump";
+  gap: 6px 10px;
+  align-items: end; justify-items: center;
+}
+.tbtn.fart { grid-area: fart; margin-bottom: 0; }
+.tbtn.boom { grid-area: boom; }
+.tbtn.jump { grid-area: jump; }
+
+/* Apaisado: la pantalla en el centro y los mandos a los lados,
+   como en una consola portátil. */
+@media (hover: none) and (orientation: landscape) {
+  #game-container { justify-content: center; }
+  #game { height: 94vh; width: auto; max-height: 94vh; max-width: 100vw; }
+  #touch-controls {
+    position: fixed; left: 0; right: 0; bottom: 14px;
+    padding: 0 max(14px, env(safe-area-inset-left)) 0 max(14px, env(safe-area-inset-right));
+    justify-content: space-between; align-items: flex-end;
+    pointer-events: none;
+  }
+  #touch-controls > * { pointer-events: auto; }
+  #touch-start { position: fixed; top: 10px; right: 12px; }
+  body #menu-link { top: 10px; bottom: auto; }
+}

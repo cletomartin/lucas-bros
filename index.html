@@ -2,59 +2,146 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#111">
-  <title>Lucas Bros. — La aventura del cole</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1c1228">
+  <title>Lucas Bros. — Elige juego</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #1c1228;
+      --panel: #2a1e40;
+      --gold: #ffd860;
+      --pink: #ff6f91;
+      --text: #ffffff;
+      --muted: #c8c0e8;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      background: radial-gradient(ellipse at top, #3a2a6a 0%, var(--bg) 60%) fixed, var(--bg);
+      color: var(--text);
+      font-family: "Fredoka", "Trebuchet MS", "Segoe UI", Verdana, sans-serif;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 28px 16px 40px;
+      -webkit-user-select: none; user-select: none;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(40px, 9vw, 76px);
+      letter-spacing: 1px;
+      color: var(--gold);
+      text-shadow: 0 4px 0 #a0400a, 0 8px 0 var(--bg), 0 0 24px rgba(255, 200, 80, 0.35);
+    }
+    .sub { margin: 8px 0 26px; color: var(--muted); font-weight: 500; font-size: 18px; text-align: center; }
+    .games {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+      width: 100%; max-width: 900px;
+    }
+    .card {
+      display: flex; flex-direction: column;
+      background: var(--panel);
+      border: 3px solid #4a3a70;
+      border-radius: 16px;
+      overflow: hidden;
+      color: inherit; text-decoration: none;
+      transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
+      outline: none;
+    }
+    .card img {
+      display: block; width: 100%; aspect-ratio: 16 / 14; object-fit: cover; object-position: top;
+      image-rendering: pixelated; background: #000;
+    }
+    .card .info { padding: 14px 16px 16px; }
+    .card .num {
+      display: inline-block; font-weight: 700; font-size: 13px;
+      background: var(--pink); color: #fff; border-radius: 999px; padding: 2px 10px;
+    }
+    .card h2 { margin: 8px 0 4px; font-size: 24px; }
+    .card p { margin: 0; color: var(--muted); font-weight: 500; font-size: 15px; line-height: 1.35; }
+    .card .rec { margin-top: 10px; color: var(--gold); font-size: 14px; font-weight: 700; min-height: 1em; }
+    .card .play {
+      margin-top: 12px; display: inline-block; font-weight: 700;
+      background: var(--gold); color: var(--bg); border-radius: 10px; padding: 6px 14px;
+    }
+    .card:hover, .card.sel, .card:focus-visible {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+      box-shadow: 0 10px 0 rgba(0, 0, 0, 0.25), 0 0 0 4px rgba(255, 216, 96, 0.25);
+    }
+    .hint { margin-top: 24px; color: var(--muted); font-size: 14px; text-align: center; }
+    kbd {
+      font-family: inherit; font-weight: 700; background: #3a2a5a; border: 1px solid #5a4a8a;
+      border-radius: 6px; padding: 1px 7px;
+    }
+    @media (pointer: coarse) { .hint .keys { display: none; } }
+    @media (max-width: 600px) {
+      body { padding-top: 18px; }
+      .sub { margin-bottom: 16px; }
+      .games { gap: 14px; }
+      .card img { aspect-ratio: auto; height: 50vw; }
+      .card .info { padding: 10px 14px 14px; }
+      .card h2 { font-size: 21px; }
+    }
+  </style>
 </head>
 <body>
-  <div id="game-container">
-    <canvas id="game" width="256" height="240"></canvas>
-    <div id="hud-help">
-      <span>Mover: ← → o A D</span>
-      <span>Saltar: ↑ o W</span>
-      <span>Boomerang: ↓ o S</span>
-      <span>Eructo: E (con barriga llena)</span>
-      <span>Pausa: P</span>
-    </div>
-    <!-- Controles táctiles: sólo se ven en móvil (pointer:coarse). -->
-    <div id="touch-controls">
-      <div class="dpad">
-        <button class="tbtn" data-key="ArrowLeft" aria-label="Izquierda">◀</button>
-        <button class="tbtn" data-key="ArrowRight" aria-label="Derecha">▶</button>
+  <h1>Lucas Bros.</h1>
+  <div class="sub">¿A qué juego quieres jugar?</div>
+
+  <div class="games">
+    <a class="card" href="juego1/" data-key="lucas_bros_v1">
+      <img src="img/juego1.png" alt="Pantalla de título de Lucas Bros. 1">
+      <div class="info">
+        <span class="num">JUEGO 1</span>
+        <h2>La aventura del cole</h2>
+        <p>El primero: recorre el cole, rescata a tus amigos y derrota a los profes.</p>
+        <div class="rec"></div>
+        <span class="play">▶ Jugar</span>
       </div>
-      <div class="actions">
-        <button class="tbtn small" data-key="KeyE" aria-label="Eructo">E</button>
-        <button class="tbtn" data-key="ArrowDown" aria-label="Boomerang">B</button>
-        <button class="tbtn big" data-key="ArrowUp" aria-label="Saltar">▲</button>
+    </a>
+    <a class="card" href="juego2/" data-key="lucas_bros2_v1">
+      <img src="img/juego2.png" alt="Pantalla de título de Lucas Bros. 2">
+      <div class="info">
+        <span class="num">JUEGO 2</span>
+        <h2>Los profes contraatacan</h2>
+        <p>Niveles nuevos de fácil a difícil, contrarreloj con estrellas y récords… ¡y pedos!</p>
+        <div class="rec"></div>
+        <span class="play">▶ Jugar</span>
       </div>
-    </div>
-    <button id="touch-start" data-key="Space" aria-label="Empezar">▶ START</button>
+    </a>
   </div>
 
-  <script src="js/audio.js"></script>
-  <script src="js/music.js"></script>
-  <script src="js/storage.js"></script>
-  <script src="js/effects.js"></script>
-  <script src="js/input.js"></script>
-  <script src="js/sprites.js"></script>
-  <script src="js/boomerang.js"></script>
-  <script src="js/cromo.js"></script>
-  <script src="js/bocadillo.js"></script>
-  <script src="js/banana.js"></script>
-  <script src="js/eructo.js"></script>
-  <script src="js/portal.js"></script>
-  <script src="js/player.js"></script>
-  <script src="js/enemy.js"></script>
-  <script src="js/diego.js"></script>
-  <script src="js/parents.js"></script>
-  <script src="js/friend.js"></script>
-  <script src="js/boss.js"></script>
-  <script src="js/level.js"></script>
-  <script src="js/levels.js"></script>
-  <script src="js/game.js"></script>
-  <script src="js/main.js"></script>
+  <div class="hint">
+    <span class="keys"><kbd>←</kbd> <kbd>→</kbd> para elegir y <kbd>Enter</kbd> para jugar · </span>
+    Dentro de cada juego, el botón <b>☰ Juegos</b> te trae aquí para cambiar.
+  </div>
+
+  <script>
+    const cards = Array.from(document.querySelectorAll('.card'));
+    // Récord guardado de cada juego (si ya se ha jugado en este navegador)
+    for (const c of cards) {
+      try {
+        const d = JSON.parse(localStorage.getItem(c.dataset.key) || 'null');
+        if (d && d.hiScore) c.querySelector('.rec').textContent = '🏆 Récord: ' + d.hiScore;
+      } catch (e) { /* sin almacenamiento: no pasa nada */ }
+    }
+    // Elegir con el teclado
+    let sel = 1;
+    try { const s = sessionStorage.getItem('lb_sel'); if (s !== null) sel = +s; } catch (e) {}
+    const mark = () => cards.forEach((c, i) => c.classList.toggle('sel', i === sel));
+    mark();
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'ArrowUp') { sel = 0; mark(); }
+      else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'ArrowDown') { sel = 1; mark(); }
+      else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cards[sel].click(); }
+    });
+    cards.forEach((c, i) => c.addEventListener('click', () => {
+      try { sessionStorage.setItem('lb_sel', String(i)); } catch (e) {}
+    }));
+  </script>
 </body>
 </html>

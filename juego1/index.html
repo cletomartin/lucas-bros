@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#111">
+  <title>Lucas Bros. — La aventura del cole</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Volver al menú para cambiar de juego -->
+  <a id="menu-link" href="../" title="Volver al menú para elegir juego">☰ Juegos</a>
+  <style>
+    #menu-link {
+      position: fixed; top: 8px; left: 8px; z-index: 50;
+      font: 700 14px "Fredoka", "Trebuchet MS", sans-serif;
+      color: #fff; text-decoration: none;
+      background: rgba(30, 20, 60, 0.75); border: 2px solid #ffd860;
+      border-radius: 10px; padding: 4px 10px; opacity: 0.8;
+    }
+    #menu-link:hover, #menu-link:focus { opacity: 1; background: rgba(60, 40, 110, 0.9); }
+    /* en el móvil, abajo a la izquierda para no tapar el marcador */
+    @media (pointer: coarse) { #menu-link { top: auto; bottom: 10px; left: 10px; } }
+  </style>
+  <div id="game-container">
+    <canvas id="game" width="256" height="240"></canvas>
+    <div id="hud-help">
+      <span>Mover: ← → o A D</span>
+      <span>Saltar: ↑ o W</span>
+      <span>Boomerang: ↓ o S</span>
+      <span>Eructo: E (con barriga llena)</span>
+      <span>Pausa: P</span>
+    </div>
+    <!-- Controles táctiles: sólo se ven en móvil (pointer:coarse). -->
+    <div id="touch-controls">
+      <div class="dpad">
+        <button class="tbtn" data-key="ArrowLeft" aria-label="Izquierda">◀</button>
+        <button class="tbtn" data-key="ArrowRight" aria-label="Derecha">▶</button>
+      </div>
+      <div class="actions">
+        <button class="tbtn small" data-key="KeyE" aria-label="Eructo">E</button>
+        <button class="tbtn" data-key="ArrowDown" aria-label="Boomerang">B</button>
+        <button class="tbtn big" data-key="ArrowUp" aria-label="Saltar">▲</button>
+      </div>
+    </div>
+    <button id="touch-start" data-key="Space" aria-label="Empezar">▶ START</button>
+  </div>
+
+  <script src="js/audio.js"></script>
+  <script src="js/music.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/sprites.js"></script>
+  <script src="js/boomerang.js"></script>
+  <script src="js/cromo.js"></script>
+  <script src="js/bocadillo.js"></script>
+  <script src="js/banana.js"></script>
+  <script src="js/eructo.js"></script>
+  <script src="js/portal.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/enemy.js"></script>
+  <script src="js/diego.js"></script>
+  <script src="js/parents.js"></script>
+  <script src="js/friend.js"></script>
+  <script src="js/boss.js"></script>
+  <script src="js/level.js"></script>
+  <script src="js/levels.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
